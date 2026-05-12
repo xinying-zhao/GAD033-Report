@@ -260,22 +260,30 @@
   </main>
   <script>
     (function () {
+      // Create a function to wrap map paths to ensure they work in GitHub Pages
+      const getAssetPath = (filename) => {
+        // If the current URL has a path (like /GAD033-Report/), use relative path
+        // This works for both local file:// and GitHub Pages
+        return `./gad033_report_assets/${filename}`;
+      };
+      
       const map = {
-        "all": "./gad033_report_assets/web_chart_hourly_all.png",
-        "04-12": "./gad033_report_assets/web_chart_hourly_0412.png",
-        "04-13": "./gad033_report_assets/web_chart_hourly_0413.png",
-        "04-14": "./gad033_report_assets/web_chart_hourly_0414.png",
-        "04-15": "./gad033_report_assets/web_chart_hourly_0415.png",
-        "04-16": "./gad033_report_assets/web_chart_hourly_0416.png",
-        "04-17": "./gad033_report_assets/web_chart_hourly_0417.png",
-        "04-18": "./gad033_report_assets/web_chart_hourly_0418.png",
-        "04-19": "./gad033_report_assets/web_chart_hourly_0419.png"
+        "all": getAssetPath("web_chart_hourly_all.png"),
+        "04-12": getAssetPath("web_chart_hourly_0412.png"),
+        "04-13": getAssetPath("web_chart_hourly_0413.png"),
+        "04-14": getAssetPath("web_chart_hourly_0414.png"),
+        "04-15": getAssetPath("web_chart_hourly_0415.png"),
+        "04-16": getAssetPath("web_chart_hourly_0416.png"),
+        "04-17": getAssetPath("web_chart_hourly_0417.png"),
+        "04-18": getAssetPath("web_chart_hourly_0418.png"),
+        "04-19": getAssetPath("web_chart_hourly_0419.png")
       };
       const sel = document.getElementById("daySelect");
       const img = document.getElementById("hourlyChart");
       sel.addEventListener("change", function () {
         const targetSrc = map[this.value] || map["all"];
-        if (img.src.endsWith(targetSrc.replace('./', ''))) return;
+        // In GitHub Pages, the full URL will include the domain, so we need a more robust check
+        if (img.src.indexOf(targetSrc.replace('./', '')) !== -1) return;
         
         img.classList.add("fade-out");
         setTimeout(() => {
